@@ -1,16 +1,10 @@
 package com.example.jonathan.seisme_miniprojet;
 
-import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         lvEarthqJ.setAdapter(adapter);
 
         //final TextView tvDateR = (TextView) findViewById(R.id.tvJson);
-        new Seisme().execute(listItem, adapter);
+        new EarthqAsyncTask().execute(listItem, adapter);
 
 
     }

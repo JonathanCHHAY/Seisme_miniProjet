@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Seisme extends AsyncTask<Object, Integer, String>{
+public class EarthqAsyncTask extends AsyncTask<Object, Integer, String>{
 
     ArrayList<HashMap<String, String>> listItem;
     SimpleAdapter adapter;
@@ -41,6 +41,8 @@ public class Seisme extends AsyncTask<Object, Integer, String>{
             URL url = new URL("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
+
+                // On récupère le JSON
                 BufferedReader in = new BufferedReader(
                 new InputStreamReader(urlConnection.getInputStream() ) );
                 String data;
@@ -52,7 +54,7 @@ public class Seisme extends AsyncTask<Object, Integer, String>{
                 System.out.println(etJson);
 
 
-                //String inJson = "";
+                //On rempli l'array liste des titres de séismes
                 JSONObject reader = new JSONObject(etJson);
                 JSONArray features  = reader.getJSONArray("features");
 
