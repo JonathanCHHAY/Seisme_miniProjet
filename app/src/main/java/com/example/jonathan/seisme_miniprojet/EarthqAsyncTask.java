@@ -98,3 +98,4 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String>{
         adapter.notifyDataSetChanged();
     }
 }
+
