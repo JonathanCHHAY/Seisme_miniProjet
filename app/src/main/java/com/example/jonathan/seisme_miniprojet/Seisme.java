@@ -1,6 +1,8 @@
 package com.example.jonathan.seisme_miniprojet;
 
 import android.os.AsyncTask;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -12,22 +14,30 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Seisme extends AsyncTask<Object, Integer, String>{
 
-    TextView tvJson;
+    ArrayList<HashMap<String, String>> listItem;
+    SimpleAdapter adapter;
     ArrayList <String> titles;
     //String earthquakes = "";
 
     @Override
     protected String doInBackground(Object... params) {
 
-        tvJson = (TextView) params[0];
+        listItem = (ArrayList<HashMap<String, String>>) params[0];
+        adapter = (SimpleAdapter) params[1];
+        titles = new ArrayList<>();
+        //Création de la ArrayList qui nous permettra de remplir la listView
+
+        //On déclare la HashMap qui contiendra les informations pour un item
+        HashMap<String, String> map;
+
         String etJson = "";
 
         try {
 
-            titles = new ArrayList<>();
             URL url = new URL("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
@@ -56,10 +66,21 @@ public class Seisme extends AsyncTask<Object, Integer, String>{
                     System.out.println(titles.get(i) + "\n");
                 }
 
+                // On rempli la map de la liste
+                for(int i = 0 ; i < titles.size() ; i++) {
+                    map = new HashMap<>();
+                    map.put("titre", titles.get(i));
+                    map.put("description", "");
+                    map.put("img", String.valueOf(R.mipmap.ic_launcher));
+                    listItem.add(map);
+                }
+
+                System.out.println(listItem);
+
                 in.close(); // et on ferme le flux
 
                 //return ( earthquakes );
-                return ( etJson );
+                return ("ok");
             }
         } catch (Exception e) {
             System.out.println("Error fetch earthquakes");
@@ -72,6 +93,6 @@ public class Seisme extends AsyncTask<Object, Integer, String>{
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        tvJson.setText(s);
+        adapter.notifyDataSetChanged();
     }
 }
