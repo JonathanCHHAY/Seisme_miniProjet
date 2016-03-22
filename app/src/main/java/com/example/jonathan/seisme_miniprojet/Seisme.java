@@ -16,8 +16,8 @@ import java.util.ArrayList;
 public class Seisme extends AsyncTask<Object, Integer, String>{
 
     TextView tvJson;
-    //ArrayList <String> earthquakes = null;
-    String earthquakes = "";
+    ArrayList <String> titles;
+    //String earthquakes = "";
 
     @Override
     protected String doInBackground(Object... params) {
@@ -27,12 +27,13 @@ public class Seisme extends AsyncTask<Object, Integer, String>{
 
         try {
 
+            titles = new ArrayList<>();
             URL url = new URL("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
                 BufferedReader in = new BufferedReader(
                 new InputStreamReader(urlConnection.getInputStream() ) );
-                String data = "";
+                String data;
 
                 while ((data = in.readLine()) != null) {
                     etJson += data;
@@ -48,28 +49,12 @@ public class Seisme extends AsyncTask<Object, Integer, String>{
                 for (int i = 0 ; i < features.length() ; i++) {
                     JSONObject feature = features.getJSONObject(i);
                     JSONObject properties = feature.getJSONObject("properties");
-                    String place = properties.getString("place");
+                    String title = properties.getString("title");
+                    titles.add(title);
+
                     //JSONObject place = ;
-                    System.out.println(place + "\n");
+                    System.out.println(titles.get(i) + "\n");
                 }
-
-                /*
-                JSONObject  jsonRootObject = new JSONObject(etJson);
-
-                //Get the instance of JSONArray that contains JSONObjects
-                JSONArray jsonArray = jsonRootObject.optJSONArray("features");
-
-                //Iterate the jsonArray and print the info of JSONObjects
-                for(int i=0; i < jsonArray.length(); i++){
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                    String name = jsonObject.optString("place");
-
-                    //earthquakes.add("lieu= " + name) ;
-                    earthquakes += "lieu= " + name + "\n";
-                    System.out.println(earthquakes);
-                }
-                */
 
                 in.close(); // et on ferme le flux
 
