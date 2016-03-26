@@ -30,11 +30,12 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String>{
 
         listItem = (ArrayList<HashMap<String, String>>) params[0];
         adapter = (SimpleAdapter) params[1];
-        titles = new ArrayList<>();
+        //titles = new ArrayList<>();
         //Création de la ArrayList qui nous permettra de remplir la listView
 
         //On déclare la HashMap qui contiendra les informations pour un item
         HashMap<String, String> map;
+        ArrayList<Earthq> quakes;
 
         String jsonData = "";
 
@@ -56,6 +57,7 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String>{
 
                 //On rempli l'array liste des titres de séismes
                 fetchEarthq(jsonData);
+                updateListItem();
 
                 /*
                 // On rempli la map de la liste
@@ -91,6 +93,8 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String>{
 
     public boolean fetchEarthq(String jsonDatas) {
 
+        titles = new ArrayList<>();
+
         try {
 
             JSONObject reader = new JSONObject(jsonDatas);
@@ -101,14 +105,8 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String>{
                 JSONObject properties = feature.getJSONObject("properties");
                 //JSONObject geometry = properties.getJSONObject("geometry");
                 String title = properties.getString("title");
+                titles.add(title);
                 System.out.println(title);
-
-                HashMap<String, String> map = new HashMap<>() ;
-                map.put("title", title);
-                map.put("titre", title);
-                map.put("description", "");
-                map.put("img", String.valueOf(R.mipmap.ic_launcher));
-                listItem.add(map);
                 //System.out.println(titles);
 
                 //String type = properties.getString("type");
@@ -139,6 +137,18 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String>{
         }
 
         return false;
+    }
+
+    public void updateListItem() {
+
+        for (int i = 0 ; i < titles.size() ; i++ ) {
+            HashMap<String, String> map = new HashMap<>() ;
+            map.put("title", titles.get(i));
+            map.put("description", titles.get(i));
+            map.put("img", String.valueOf(R.mipmap.ic_launcher));
+            listItem.add(map);
+        }
+
     }
 }
 
