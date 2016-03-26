@@ -1,7 +1,9 @@
 package com.example.jonathan.seisme_miniprojet;
 
 import android.os.AsyncTask;
+import android.text.Layout;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +50,7 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String> {
                 }
 
                 fetchEarthq(jsonData);
-                updateListItem();
+                //updateListItem();
 
                 in.close(); // et on ferme le flux
 
@@ -86,14 +88,6 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String> {
                 //Propriete de chaque seisme
                 JSONObject feature = features.getJSONObject(i);
                 JSONObject properties = feature.getJSONObject("properties");
-                //JSONObject geometry = properties.getJSONObject("geometry");
-
-                // Accès aux champs
-                /*
-                String title = properties.getString("type");
-                titles.add(title);
-                System.out.println(title);
-                */
 
                 String type = properties.getString("type");
                 double mag = properties.getDouble("mag");
@@ -102,11 +96,32 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String> {
                 double time = properties.getDouble("time");
                 String date = getDate((long) time, "dd/MM/yyyy hh:mm:ss");
 
+                JSONObject geometry = feature.getJSONObject("geometry");
+                JSONArray coordinates = geometry.getJSONArray("coordinates");
+
+                // On caste la compsante récupérer en objet dans le bon type (int ou double)
+                // sinon créer des ClassCastException qui font planter le programme
+                double[] coords = new double[coordinates.length()];
+                for ( int j = 0 ; j < coordinates.length() ; j++ ) {
+                    if( coordinates.get(j).getClass().getSimpleName().equals("Double")) {
+                        coords[j] = (double) coordinates.get(j);
+
+                    } else {
+                        coords[j] = (int) coordinates.get(j);
+                    }
+                }
+
+                System.out.println(coordinates);
+                System.out.println( coords[0] + " " +  coords[1] + " " +  coords[2]);
+
                 Earthq quake = new Earthq(
                         mag,
                         place,
                         date,
-                        type
+                        type,
+                        coords[0],
+                        coords[1],
+                        coords[2]
                 );
 
                 quakes.add(quake);
@@ -134,6 +149,8 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String> {
             map.put("mag", Double.toString(quake.getMag()));
             map.put("description", quake.getDate());
             listItem.add(map);
+
+
         }
 
     }

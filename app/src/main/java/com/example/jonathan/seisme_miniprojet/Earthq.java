@@ -15,11 +15,14 @@ public class Earthq {
     private double coord1;
     private double coord2;
 
-    public Earthq(double mag, String place, String date, String type) {
+    public Earthq(double mag, String type, String place, String date, double coord0, double coord1, double coord2) {
         this.mag = mag;
+        this.type = type;
         this.place = place;
         this.date = date;
-        this.type = type;
+        this.coord0 = coord0;
+        this.coord1 = coord1;
+        this.coord2 = coord2;
     }
 
     public String getDate() {
