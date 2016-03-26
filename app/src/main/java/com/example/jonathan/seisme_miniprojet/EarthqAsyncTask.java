@@ -17,11 +17,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class EarthqAsyncTask extends AsyncTask<Object, Integer, String>{
+public class EarthqAsyncTask extends AsyncTask<Object, Integer, String> {
 
     ArrayList<HashMap<String, String>> listItem;
     SimpleAdapter adapter;
-    ArrayList <String> titles;
+    ArrayList<String> titles;
     ArrayList<Earthq> quakes;
     //String earthquakes = "";
 
@@ -43,11 +43,11 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String>{
 
             URL url = new URL("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
+            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 
                 // On récupère le JSON
                 BufferedReader in = new BufferedReader(
-                new InputStreamReader(urlConnection.getInputStream() ) );
+                        new InputStreamReader(urlConnection.getInputStream()));
 
                 String jsonFlux;
                 while ((jsonFlux = in.readLine()) != null) {
@@ -93,39 +93,47 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String>{
 
     public boolean fetchEarthq(String jsonDatas) {
 
-        titles = new ArrayList<>();
+        //titles = new ArrayList<>();
+        quakes = new ArrayList<>();
 
         try {
 
+            // root
             JSONObject reader = new JSONObject(jsonDatas);
-            JSONArray features  = reader.getJSONArray("features");
 
-            for (int i = 0 ; i < features.length() ; i++) {
+            // liste seisme
+            JSONArray features = reader.getJSONArray("features");
+            for (int i = 0; i < features.length(); i++) {
+
+                //Propriete de chaque seisme
                 JSONObject feature = features.getJSONObject(i);
                 JSONObject properties = feature.getJSONObject("properties");
                 //JSONObject geometry = properties.getJSONObject("geometry");
-                String title = properties.getString("title");
+
+                // Accès aux champs
+                /*
+                String title = properties.getString("type");
                 titles.add(title);
                 System.out.println(title);
-                //System.out.println(titles);
-
-                //String type = properties.getString("type");
-                //JSONObject place = ;
-
-                /*
-                System.out.println( i + " : " + properties.getString("type")
-                        + " " + properties.getDouble("mag")
-                        + " " + properties.getString("place") + "\n");
                 */
 
-                /*
+                String type = properties.getString("type");
+                double mag = properties.getDouble("mag");
+                String place = properties.getString("place");
+
                 Earthq quake = new Earthq(
-                    properties.getString("type"),
-                    properties.getDouble("mag"),
-                    properties.getString("place")
+                        mag,
+                        type,
+                        place
                 );
-                */
 
+                quakes.add(quake);
+
+                /*
+                System.out.println(i + " : " + quakes.get(i).getType()
+                        + " " + quakes.get(i).getMag()
+                        + " " + quakes.get(i).getPlace() + "\n");
+                        */
             }
 
             return true;
@@ -141,11 +149,15 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String>{
 
     public void updateListItem() {
 
-        for (int i = 0 ; i < titles.size() ; i++ ) {
-            HashMap<String, String> map = new HashMap<>() ;
-            map.put("title", titles.get(i));
-            map.put("description", titles.get(i));
-            map.put("img", String.valueOf(R.mipmap.ic_launcher));
+
+        for (int i = 0; i < quakes.size(); i++) {
+
+            Earthq quake = quakes.get(i);
+
+            HashMap<String, String> map = new HashMap<>();
+            map.put("title", quake.getPlace());
+            map.put("mag", Double.toString(quake.getMag()));
+            map.put("description", "");
             listItem.add(map);
         }
 
