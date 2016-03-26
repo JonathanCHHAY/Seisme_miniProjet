@@ -1,9 +1,7 @@
 package com.example.jonathan.seisme_miniprojet;
 
 import android.os.AsyncTask;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,23 +19,16 @@ import java.util.HashMap;
 
 public class EarthqAsyncTask extends AsyncTask<Object, Integer, String> {
 
+    //Création de la ArrayList qui nous permettra de remplir la listView
     ArrayList<HashMap<String, String>> listItem;
     SimpleAdapter adapter;
-    ArrayList<String> titles;
     ArrayList<Earthq> quakes;
-    //String earthquakes = "";
 
     @Override
     protected String doInBackground(Object... params) {
 
         listItem = (ArrayList<HashMap<String, String>>) params[0];
         adapter = (SimpleAdapter) params[1];
-        //titles = new ArrayList<>();
-        //Création de la ArrayList qui nous permettra de remplir la listView
-
-        //On déclare la HashMap qui contiendra les informations pour un item
-        HashMap<String, String> map;
-        ArrayList<Earthq> quakes;
 
         String jsonData = "";
 
@@ -56,23 +47,8 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String> {
                     jsonData += jsonFlux;
                 }
 
-
-                //On rempli l'array liste des titres de séismes
                 fetchEarthq(jsonData);
                 updateListItem();
-
-                /*
-                // On rempli la map de la liste
-                for(int i = 0 ; i < titles.size() ; i++) {
-                    map = new HashMap<>();
-                    map.put("titre", titles.get(i));
-                    map.put("description", "");
-                    map.put("img", String.valueOf(R.mipmap.ic_launcher));
-                    listItem.add(map);
-                }
-                */
-
-                //System.out.println(listItem);
 
                 in.close(); // et on ferme le flux
 
@@ -134,12 +110,6 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String> {
                 );
 
                 quakes.add(quake);
-
-                /*
-                System.out.println(i + " : " + quakes.get(i).getType()
-                        + " " + quakes.get(i).getMag()
-                        + " " + quakes.get(i).getPlace() + "\n");
-                        */
             }
 
             return true;
@@ -154,7 +124,6 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String> {
     }
 
     public void updateListItem() {
-
 
         for (int i = 0; i < quakes.size(); i++) {
 
