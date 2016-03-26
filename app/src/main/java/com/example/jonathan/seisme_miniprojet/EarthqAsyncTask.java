@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class EarthqAsyncTask extends AsyncTask<Object, Integer, String> {
@@ -121,10 +123,14 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String> {
                 double mag = properties.getDouble("mag");
                 String place = properties.getString("place");
 
+                double time = properties.getDouble("time");
+                String date = getDate((long) time, "dd/MM/yyyy hh:mm:ss");
+
                 Earthq quake = new Earthq(
                         mag,
-                        type,
-                        place
+                        place,
+                        date,
+                        type
                 );
 
                 quakes.add(quake);
@@ -157,10 +163,22 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String> {
             HashMap<String, String> map = new HashMap<>();
             map.put("title", quake.getPlace());
             map.put("mag", Double.toString(quake.getMag()));
-            map.put("description", "");
+            map.put("description", quake.getDate());
             listItem.add(map);
         }
 
+    }
+
+    // https://stackoverflow.com/questions/7953725/how-to-convert-milliseconds-to-date-format-in-android
+    public static String getDate(long milliSeconds, String dateFormat)
+    {
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
     }
 }
 

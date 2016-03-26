@@ -10,14 +10,20 @@ public class Earthq {
     private double mag;
     private String type;
     private String place;
+    private String date;
     private double coord0;
     private double coord1;
     private double coord2;
 
-    public Earthq(double mag, String type, String place) {
+    public Earthq(double mag, String place, String date, String type) {
         this.mag = mag;
-        this.type = type;
         this.place = place;
+        this.date = date;
+        this.type = type;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public double getMag() {
