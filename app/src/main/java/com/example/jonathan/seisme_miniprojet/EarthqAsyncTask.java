@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -21,6 +22,7 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String>{
     ArrayList<HashMap<String, String>> listItem;
     SimpleAdapter adapter;
     ArrayList <String> titles;
+    ArrayList<Earthq> quakes;
     //String earthquakes = "";
 
     @Override
@@ -34,7 +36,7 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String>{
         //On déclare la HashMap qui contiendra les informations pour un item
         HashMap<String, String> map;
 
-        String etJson = "";
+        String jsonData = "";
 
         try {
 
@@ -45,29 +47,17 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String>{
                 // On récupère le JSON
                 BufferedReader in = new BufferedReader(
                 new InputStreamReader(urlConnection.getInputStream() ) );
-                String data;
 
-                while ((data = in.readLine()) != null) {
-                    etJson += data;
+                String jsonFlux;
+                while ((jsonFlux = in.readLine()) != null) {
+                    jsonData += jsonFlux;
                 }
-
-                System.out.println(etJson);
 
 
                 //On rempli l'array liste des titres de séismes
-                JSONObject reader = new JSONObject(etJson);
-                JSONArray features  = reader.getJSONArray("features");
+                fetchEarthq(jsonData);
 
-                for (int i = 0 ; i < features.length() ; i++) {
-                    JSONObject feature = features.getJSONObject(i);
-                    JSONObject properties = feature.getJSONObject("properties");
-                    String title = properties.getString("title");
-                    titles.add(title);
-
-                    //JSONObject place = ;
-                    System.out.println(titles.get(i) + "\n");
-                }
-
+                /*
                 // On rempli la map de la liste
                 for(int i = 0 ; i < titles.size() ; i++) {
                     map = new HashMap<>();
@@ -76,15 +66,16 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String>{
                     map.put("img", String.valueOf(R.mipmap.ic_launcher));
                     listItem.add(map);
                 }
+                */
 
-                System.out.println(listItem);
+                //System.out.println(listItem);
 
                 in.close(); // et on ferme le flux
 
                 //return ( earthquakes );
                 return ("ok");
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Error fetch earthquakes");
             e.printStackTrace();
         }
@@ -96,6 +87,58 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String>{
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         adapter.notifyDataSetChanged();
+    }
+
+    public boolean fetchEarthq(String jsonDatas) {
+
+        try {
+
+            JSONObject reader = new JSONObject(jsonDatas);
+            JSONArray features  = reader.getJSONArray("features");
+
+            for (int i = 0 ; i < features.length() ; i++) {
+                JSONObject feature = features.getJSONObject(i);
+                JSONObject properties = feature.getJSONObject("properties");
+                //JSONObject geometry = properties.getJSONObject("geometry");
+                String title = properties.getString("title");
+                System.out.println(title);
+
+                HashMap<String, String> map = new HashMap<>() ;
+                map.put("title", title);
+                map.put("titre", title);
+                map.put("description", "");
+                map.put("img", String.valueOf(R.mipmap.ic_launcher));
+                listItem.add(map);
+                //System.out.println(titles);
+
+                //String type = properties.getString("type");
+                //JSONObject place = ;
+
+                /*
+                System.out.println( i + " : " + properties.getString("type")
+                        + " " + properties.getDouble("mag")
+                        + " " + properties.getString("place") + "\n");
+                */
+
+                /*
+                Earthq quake = new Earthq(
+                    properties.getString("type"),
+                    properties.getDouble("mag"),
+                    properties.getString("place")
+                );
+                */
+
+            }
+
+            return true;
+
+        } catch (JSONException e) {
+            System.out.println("err fetch jsonInfos");
+            e.printStackTrace();
+            e.getMessage();
+        }
+
+        return false;
     }
 }
 

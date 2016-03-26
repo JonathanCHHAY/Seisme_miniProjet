@@ -4,22 +4,27 @@ package com.example.jonathan.seisme_miniprojet;
  * Created by Jonathan on 22/03/16.
  *
  */
+
+// 3, 5, 7, 9
 public class Earthq {
     private String type;
-    private String mag;
+    private double mag;
     private String place;
-    private String intensity;
     private int color;
     private double coord0;
     private double coord1;
     private double coord2;
 
-    public Earthq(String type, String mag, String place, String intensity, int color, double coord0, double coord1, double coord2) {
+    public Earthq(String type, double mag, String place) {
         this.type = type;
         this.mag = mag;
         this.place = place;
-        this.intensity = intensity;
-        this.color = color;
+    }
+
+    public Earthq(String type, double mag, String place, double coord0, double coord1, double coord2) {
+        this.type = type;
+        this.mag = mag;
+        this.place = place;
         this.coord0 = coord0;
         this.coord1 = coord1;
         this.coord2 = coord2;
@@ -33,11 +38,11 @@ public class Earthq {
         this.type = type;
     }
 
-    public String getMag() {
+    public double getMag() {
         return mag;
     }
 
-    public void setMag(String mag) {
+    public void setMag(double mag) {
         this.mag = mag;
     }
 
@@ -47,14 +52,6 @@ public class Earthq {
 
     public void setPlace(String place) {
         this.place = place;
-    }
-
-    public String getIntensity() {
-        return intensity;
-    }
-
-    public void setIntensity(String intensity) {
-        this.intensity = intensity;
     }
 
     public int getColor() {
