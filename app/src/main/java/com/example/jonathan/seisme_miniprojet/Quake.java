@@ -11,18 +11,18 @@ public class Quake {
     private String type;
     private String place;
     private String date;
-    private double coord0;
-    private double coord1;
-    private double coord2;
+    private double x0;
+    private double x1;
+    private double x2;
 
-    public Quake(double mag, String type, String place, String date, double coord0, double coord1, double coord2) {
+    public Quake(double mag, String type, String place, String date, double x0, double x1, double x2) {
         this.mag = mag;
         this.type = type;
         this.place = place;
         this.date = date;
-        this.coord0 = coord0;
-        this.coord1 = coord1;
-        this.coord2 = coord2;
+        this.x0 = x0;
+        this.x1 = x1;
+        this.x2 = x2;
     }
 
     public String getDate() {
@@ -41,15 +41,15 @@ public class Quake {
         return place;
     }
 
-    public double getCoord0() {
-        return coord0;
+    public double getX0() {
+        return x0;
     }
 
-    public double getCoord1() {
-        return coord1;
+    public double getX1() {
+        return x1;
     }
 
-    public double getCoord2() {
-        return coord2;
+    public double getX2() {
+        return x2;
     }
 }

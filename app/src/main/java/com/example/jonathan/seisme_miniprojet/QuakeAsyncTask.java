@@ -145,6 +145,9 @@ public class QuakeAsyncTask extends AsyncTask<Object, Integer, String> {
             map.put("title", quake.getPlace());
             map.put("mag", Double.toString(quake.getMag()));
             map.put("description", quake.getDate());
+            map.put("x0", Double.toString(quake.getX0()));
+            map.put("x1", Double.toString(quake.getX1()));
+            map.put("x2", Double.toString(quake.getX2()));
             listItem.add(map);
 
 

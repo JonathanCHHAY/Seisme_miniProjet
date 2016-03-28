@@ -46,7 +46,15 @@ public class MainActivity extends AppCompatActivity {
                     //on récupère la HashMap contenant les infos de notre item (titre, description, img)
                     HashMap<String, String> map = (HashMap<String, String>) lvEarthqJ.getItemAtPosition(position);
                     Intent quakeDetailsIntent = new Intent(MainActivity.this, QuakeDetailsActivity.class);
-                    //i.putExtra("msgToB", etMsg.getText().toString());
+                    quakeDetailsIntent.putExtra("x0", map.get("x0"));
+                    quakeDetailsIntent.putExtra("x1", map.get("x1"));
+                    quakeDetailsIntent.putExtra("x2", map.get("x2"));
+
+                    System.out.println("["
+                            +  map.get("x0") + ", "
+                            +  map.get("x1") + ", "
+                            +  map.get("x2") + "]");
+
                     startActivity(quakeDetailsIntent);
 
 
