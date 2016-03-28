@@ -1,9 +1,7 @@
 package com.example.jonathan.seisme_miniprojet;
 
 import android.os.AsyncTask;
-import android.text.Layout;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,12 +17,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class EarthqAsyncTask extends AsyncTask<Object, Integer, String> {
+public class QuakeAsyncTask extends AsyncTask<Object, Integer, String> {
 
     //Création de la ArrayList qui nous permettra de remplir la listView
     ArrayList<HashMap<String, String>> listItem;
     SimpleAdapter adapter;
-    ArrayList<Earthq> quakes;
+    ArrayList<Quake> quakes;
 
     @Override
     protected String doInBackground(Object... params) {
@@ -50,11 +48,10 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String> {
                 }
 
                 fetchEarthq(jsonData);
-                //updateListItem();
+                updateListItem();
 
                 in.close(); // et on ferme le flux
 
-                //return ( earthquakes );
                 return ("ok");
             }
         } catch (IOException e) {
@@ -114,11 +111,11 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String> {
                 System.out.println(coordinates);
                 System.out.println( coords[0] + " " +  coords[1] + " " +  coords[2]);
 
-                Earthq quake = new Earthq(
+                Quake quake = new Quake(
                         mag,
+                        type,
                         place,
                         date,
-                        type,
                         coords[0],
                         coords[1],
                         coords[2]
@@ -142,7 +139,7 @@ public class EarthqAsyncTask extends AsyncTask<Object, Integer, String> {
 
         for (int i = 0; i < quakes.size(); i++) {
 
-            Earthq quake = quakes.get(i);
+            Quake quake = quakes.get(i);
 
             HashMap<String, String> map = new HashMap<>();
             map.put("title", quake.getPlace());

@@ -6,7 +6,7 @@ package com.example.jonathan.seisme_miniprojet;
  */
 
 // 3, 5, 7, 9
-public class Earthq {
+public class Quake {
     private double mag;
     private String type;
     private String place;
@@ -15,7 +15,7 @@ public class Earthq {
     private double coord1;
     private double coord2;
 
-    public Earthq(double mag, String type, String place, String date, double coord0, double coord1, double coord2) {
+    public Quake(double mag, String type, String place, String date, double coord0, double coord1, double coord2) {
         this.mag = mag;
         this.type = type;
         this.place = place;
