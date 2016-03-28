@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Seisme_miniProjet</string>
     <string name="title_activity_maps">Map</string>
-    <string name="title_activity_quake_details">QuakeDetailsActivity</string>
+    <string name="title_activity_quake_details">Détail du séisme</string>
+    <string name="TitleGpsCoordStr">Coordonnées GPS</string>
+    <string name="tvTitleDepthStr" >Altitude</string>
+    <string name="tvTitleMagStr">Magnitude</string>
+    <string name="tvTitleTimeDate">Date</string>
 </resources>

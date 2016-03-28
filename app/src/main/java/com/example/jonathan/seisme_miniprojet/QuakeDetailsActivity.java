@@ -22,7 +22,7 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                    Snackbar.make(view, "Ceci est un FAB !", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
             });
@@ -34,20 +34,49 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         }
 
         // get data via the key
+        String title = extras.getString("title");
+        String mag = extras.getString("mag");
+        String timeDate = extras.getString("description");
         String x0 = extras.getString("x0");
         String x1 = extras.getString("x1");
         String x2 = extras.getString("x2");
-        if (x0 != null && x1 != null && x2 != null) {
-            TextView tvMsgSent = (TextView) findViewById(R.id.tvCoordGPS);
-            String coordGPSTxt = x0 + ", " + x1 + ", " + x2;
-            tvMsgSent.setText(coordGPSTxt);
+
+        if (title != null) {
+            TextView tvTitleQuakeR = (TextView) findViewById(R.id.tvTitleQuake);
+            if (tvTitleQuakeR != null) {
+                tvTitleQuakeR.setText(title);
+            }
         }
 
-        /*
-            // On affiche le message de A
-            TextView tvMsgSent = (TextView) findViewById(R.id.tvMsgSent);
-            tvMsgSent.setText(msgFromA);
-            */
+        if (mag != null) {
+            TextView tvMagR = (TextView) findViewById(R.id.tvMag);
+            if (tvMagR != null) {
+                tvMagR.setText(mag);
+            }
+        }
+
+        if (timeDate != null) {
+            TextView tvDateTimeR = (TextView) findViewById(R.id.tvDateTime);
+            if (tvDateTimeR != null) {
+                tvDateTimeR.setText(timeDate);
+            }
+        }
+
+        if (x0 != null && x1 != null) {
+            TextView tvCoordGpsR = (TextView) findViewById(R.id.tvCoordGps);
+            String coordGPSTxt = "long : " +  x0 + "°, lat : " + x1 + "°";
+            if (tvCoordGpsR != null) {
+                tvCoordGpsR.setText(coordGPSTxt);
+            }
+        }
+
+        if (x2 != null) {
+            TextView tvCoordDepthR = (TextView) findViewById(R.id.tvDepth);
+            if (tvCoordDepthR != null) {
+                String lat = x2 + " km";
+                tvCoordDepthR.setText(lat);
+            }
+        }
 
     }
 
