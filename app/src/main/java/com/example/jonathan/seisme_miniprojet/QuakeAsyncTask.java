@@ -1,5 +1,6 @@
 package com.example.jonathan.seisme_miniprojet;
 
+import android.app.AlertDialog;
 import android.os.AsyncTask;
 import android.widget.SimpleAdapter;
 
@@ -57,6 +58,14 @@ public class QuakeAsyncTask extends AsyncTask<Object, Integer, String> {
         } catch (IOException e) {
             System.out.println("Error fetch earthquakes");
             e.printStackTrace();
+
+            /*
+            AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.);
+            adb.setTitle("Erreur de chargement de la liste des séismes");
+            adb.setMessage("Vérifiez votre connexion internet");
+            adb.setPositiveButton("OK", null);
+            adb.show();
+            */
         }
 
         return null;
@@ -108,6 +117,8 @@ public class QuakeAsyncTask extends AsyncTask<Object, Integer, String> {
                     }
                 }
 
+                String url = properties.getString("url");
+
                 System.out.println(coordinates);
                 System.out.println( coords[0] + " " +  coords[1] + " " +  coords[2]);
 
@@ -118,7 +129,8 @@ public class QuakeAsyncTask extends AsyncTask<Object, Integer, String> {
                         date,
                         coords[0],
                         coords[1],
-                        coords[2]
+                        coords[2],
+                        url
                 );
 
                 quakes.add(quake);
@@ -148,6 +160,7 @@ public class QuakeAsyncTask extends AsyncTask<Object, Integer, String> {
             map.put("x0", Double.toString(quake.getX0()));
             map.put("x1", Double.toString(quake.getX1()));
             map.put("x2", Double.toString(quake.getX2()));
+            map.put("url", quake.getUrl());
             listItem.add(map);
 
 

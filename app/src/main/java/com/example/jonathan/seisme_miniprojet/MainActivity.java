@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     quakeDetailsIntent.putExtra("x0", map.get("x0"));
                     quakeDetailsIntent.putExtra("x1", map.get("x1"));
                     quakeDetailsIntent.putExtra("x2", map.get("x2"));
+                    quakeDetailsIntent.putExtra("url", map.get("url"));
 
                     System.out.println("["
                             +  map.get("x0") + ", "

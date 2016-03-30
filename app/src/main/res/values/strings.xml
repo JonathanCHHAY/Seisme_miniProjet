@@ -6,4 +6,5 @@
     <string name="tvTitleDepthStr" >Altitude</string>
     <string name="tvTitleMagStr">Magnitude</string>
     <string name="tvTitleTimeDate">Date</string>
+    <string name="tvMapQuakeStr">Localisation</string>
 </resources>

@@ -14,8 +14,9 @@ public class Quake {
     private double x0;
     private double x1;
     private double x2;
+    String url;
 
-    public Quake(double mag, String type, String place, String date, double x0, double x1, double x2) {
+    public Quake(double mag, String type, String place, String date, double x0, double x1, double x2, String url) {
         this.mag = mag;
         this.type = type;
         this.place = place;
@@ -23,6 +24,11 @@ public class Quake {
         this.x0 = x0;
         this.x1 = x1;
         this.x2 = x2;
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public String getDate() {

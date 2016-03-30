@@ -6,6 +6,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 public class QuakeDetailsActivity extends AppCompatActivity {
@@ -28,19 +30,21 @@ public class QuakeDetailsActivity extends AppCompatActivity {
             });
         }
 
+        // Récupération des infos sur le titre du séisme, magnitude...
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
             return;
         }
 
-        // get data via the key
         String title = extras.getString("title");
         String mag = extras.getString("mag");
         String timeDate = extras.getString("description");
         String x0 = extras.getString("x0");
         String x1 = extras.getString("x1");
         String x2 = extras.getString("x2");
+        String url = extras.getString("url");
 
+        // Affichage des infos sur le titre du séisme, magnitude...
         if (title != null) {
             TextView tvTitleQuakeR = (TextView) findViewById(R.id.tvTitleQuake);
             if (tvTitleQuakeR != null) {
@@ -77,6 +81,21 @@ public class QuakeDetailsActivity extends AppCompatActivity {
                 tvCoordDepthR.setText(lat);
             }
         }
+
+        // Affichage de la carte
+        if (url != null) {
+            System.out.println(url);
+
+            WebView wvMapQuakeR = (WebView) findViewById(R.id.wvMapQuake);
+
+            if (wvMapQuakeR != null) {
+                wvMapQuakeR.loadUrl(url);
+                wvMapQuakeR.setWebViewClient(new WebViewClient());
+                wvMapQuakeR.getSettings().setJavaScriptEnabled(true);
+
+            }
+        }
+
 
     }
 
