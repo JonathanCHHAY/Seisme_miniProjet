@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 
 // git : programFiles(x86)/SmartGitHS/git/bin/git.exe
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     //on récupère la HashMap contenant les infos de notre item (titre, description, img)
                     HashMap<String, String> map = (HashMap<String, String>) lvEarthqJ.getItemAtPosition(position);
                     Intent quakeDetailsIntent = new Intent(MainActivity.this, QuakeDetailsActivity.class);
+
                     quakeDetailsIntent.putExtra("title", map.get("title"));
                     quakeDetailsIntent.putExtra("mag", map.get("mag"));
                     quakeDetailsIntent.putExtra("description", map.get("description"));
@@ -54,10 +55,12 @@ public class MainActivity extends AppCompatActivity {
                     quakeDetailsIntent.putExtra("x2", map.get("x2"));
                     quakeDetailsIntent.putExtra("url", map.get("url"));
 
+                    /*
                     System.out.println("["
                             +  map.get("x0") + ", "
                             +  map.get("x1") + ", "
                             +  map.get("x2") + "]");
+                    //*/
 
                     startActivity(quakeDetailsIntent);
 
@@ -65,9 +68,22 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
+
     }
 
 
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+
+            case R.id.btMap:
+                Intent mapIntent = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(mapIntent);
+                break;
+        }
+    }
 }
 
 

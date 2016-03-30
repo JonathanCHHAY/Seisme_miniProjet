@@ -6,5 +6,6 @@
     <string name="tvTitleDepthStr" >Altitude</string>
     <string name="tvTitleMagStr">Magnitude</string>
     <string name="tvTitleTimeDate">Date</string>
-    <string name="tvMapQuakeStr">Localisation</string>
+    <string name="tvMoreInfosStr">Plus d'informations</string>
+    <string name="btMapStr">Voir carte séismes</string>
 </resources>

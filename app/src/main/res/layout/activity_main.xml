@@ -11,6 +11,13 @@
     tools:context="com.example.jonathan.seisme_miniprojet.MainActivity"
     android:nestedScrollingEnabled="false">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btMapStr"
+        android:id="@+id/btMap"
+        android:onClick="onClick" />
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
