@@ -86,12 +86,12 @@ public class QuakeDetailsActivity extends AppCompatActivity {
         if (url != null) {
             System.out.println(url);
 
-            WebView wvMapQuakeR = (WebView) findViewById(R.id.wvMapQuake);
+            WebView wvMoreInfos = (WebView) findViewById(R.id.wvMoreInfos);
 
-            if (wvMapQuakeR != null) {
-                wvMapQuakeR.loadUrl(url);
-                wvMapQuakeR.setWebViewClient(new WebViewClient());
-                wvMapQuakeR.getSettings().setJavaScriptEnabled(true);
+            if (wvMoreInfos != null) {
+                wvMoreInfos.loadUrl(url);
+                wvMoreInfos.setWebViewClient(new WebViewClient());
+                wvMoreInfos.getSettings().setJavaScriptEnabled(true);
 
             }
         }

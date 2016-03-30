@@ -7,12 +7,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private UiSettings mUiSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +39,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mUiSettings = mMap.getUiSettings();
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mUiSettings.setZoomControlsEnabled(true);
+        pinMarkers();
+
+    }
+
+    public void pinMarkers() {
+
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            return;
+        }
+
+        for (int i = 0 ; i < ( extras.size() / 2 ) ; i++) {
+
+            String latStr = extras.getString(i + "-lat");
+            String longitudeStr = extras.getString(i + "-long");
+
+            // Message générique si erreur lors de la récupération du titre du séisme
+            String title = "Position du séisme";
+            String mag = "";
+            //String desc = "";
+            title = extras.getString(i + "-title");
+            mag = extras.getString(i + "-mag");
+            //desc = extras.getString(i + "-description");
+
+
+            if (latStr != null && longitudeStr != null) {
+                double lat = Double.parseDouble(latStr);
+                double longitude = Double.parseDouble(longitudeStr);
+                LatLng quake =  new LatLng(lat, longitude);
+                mMap.addMarker(new MarkerOptions()
+                        .position(quake)
+                        .title(title)
+                        .snippet("Magnitude : " + mag));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(quake));
+            }
+
+            //System.out.println(lat + " " + longitude);
+        }
+
+        System.out.println(extras);
     }
 }

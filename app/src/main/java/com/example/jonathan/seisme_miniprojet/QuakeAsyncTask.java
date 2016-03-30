@@ -3,6 +3,7 @@ package com.example.jonathan.seisme_miniprojet;
 import android.app.AlertDialog;
 import android.os.AsyncTask;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,13 +60,7 @@ public class QuakeAsyncTask extends AsyncTask<Object, Integer, String> {
             System.out.println("Error fetch earthquakes");
             e.printStackTrace();
 
-            /*
-            AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.);
-            adb.setTitle("Erreur de chargement de la liste des séismes");
-            adb.setMessage("Vérifiez votre connexion internet");
-            adb.setPositiveButton("OK", null);
-            adb.show();
-            */
+            return("err");
         }
 
         return null;
@@ -142,6 +137,7 @@ public class QuakeAsyncTask extends AsyncTask<Object, Integer, String> {
             System.out.println("err fetch jsonInfos");
             e.printStackTrace();
             e.getMessage();
+
         }
 
         return false;

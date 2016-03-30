@@ -16,6 +16,8 @@ import java.util.HashMap;
 // git : programFiles(x86)/SmartGitHS/git/bin/git.exe
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    ArrayList<HashMap<String, String>> listItem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final ListView lvEarthqJ = (ListView) findViewById(R.id.lvEarthq);
 
         //Création de la ArrayList qui nous permettra de remplire la listView
-        ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
+        listItem = new ArrayList<>();
 
         //Création d'un SimpleAdapter qui se chargera de mettre les items présent dans notre list (listItem) dans la vue affichageitem
         SimpleAdapter adapter = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.affichageitem,
@@ -80,6 +82,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btMap:
                 Intent mapIntent = new Intent(MainActivity.this, MapsActivity.class);
+
+                // On charge les coordonnées des seismes
+                for (int i = 0 ; i < listItem.size() ; i++) {
+                    mapIntent.putExtra(i + "-long", listItem.get(i).get("x0"));
+                    mapIntent.putExtra(i + "-lat", listItem.get(i).get("x1"));
+                    mapIntent.putExtra(i + "-title", listItem.get(i).get("title"));
+                    mapIntent.putExtra(i + "-mag", listItem.get(i).get("mag"));
+                    mapIntent.putExtra(i + "-description", listItem.get(i).get("description"));
+                }
+
                 startActivity(mapIntent);
                 break;
         }
