@@ -24,41 +24,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Récupération de la listview créée dans le fichier main.xml
-        final ListView lvEarthqJ = (ListView) findViewById(R.id.lvEarthq);
+        ConnectionDetector cd = new ConnectionDetector(getApplicationContext());
+        if ( cd.isConnectingToInternet()) {
 
-        AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
+            //Boolean isInternetPresent =; // true or false
 
-        //Création de la ArrayList qui nous permettra de remplire la listView
-        listItem = new ArrayList<>();
+            //Récupération de la listview créée dans le fichier main.xml
+            final ListView lvEarthqJ = (ListView) findViewById(R.id.lvEarthq);
 
-        //Création d'un SimpleAdapter qui se chargera de mettre les items présent dans notre list (listItem) dans la vue affichageitem
-        SimpleAdapter adapter = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.affichageitem,
-                new String[] {"mag", "title", "description"}, new int[] {R.id.mag, R.id.titre, R.id.description});
+            //Création de la ArrayList qui nous permettra de remplir la listView
+            listItem = new ArrayList<>();
 
-        //On attribut à notre listView l'adapter que l'on vient de créer
-        if (lvEarthqJ != null) {
-            lvEarthqJ.setAdapter(adapter);
-        }
+            //Création d'un SimpleAdapter qui se chargera de mettre les items présent dans notre list (listItem) dans la vue affichageitem
+            SimpleAdapter adapter = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.affichageitem,
+                    new String[] {"mag", "title", "description"}, new int[] {R.id.mag, R.id.titre, R.id.description});
 
-        //final TextView tvDateR = (TextView) findViewById(R.id.tvJson);
-        new QuakeAsyncTask().execute(listItem, adapter, adb);
+            //On attribut à notre listView l'adapter que l'on vient de créer
+            if (lvEarthqJ != null) {
+                lvEarthqJ.setAdapter(adapter);
+            }
 
-        if (lvEarthqJ != null) {
-            lvEarthqJ.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    //on récupère la HashMap contenant les infos de notre item (titre, description, img)
-                    HashMap<String, String> map = (HashMap<String, String>) lvEarthqJ.getItemAtPosition(position);
-                    Intent quakeDetailsIntent = new Intent(MainActivity.this, QuakeDetailsActivity.class);
+            //final TextView tvDateR = (TextView) findViewById(R.id.tvJson);
+            new QuakeAsyncTask().execute(listItem, adapter);
 
-                    quakeDetailsIntent.putExtra("title", map.get("title"));
-                    quakeDetailsIntent.putExtra("mag", map.get("mag"));
-                    quakeDetailsIntent.putExtra("description", map.get("description"));
-                    quakeDetailsIntent.putExtra("x0", map.get("x0"));
-                    quakeDetailsIntent.putExtra("x1", map.get("x1"));
-                    quakeDetailsIntent.putExtra("x2", map.get("x2"));
-                    quakeDetailsIntent.putExtra("url", map.get("url"));
+            if (lvEarthqJ != null) {
+                lvEarthqJ.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        //on récupère la HashMap contenant les infos de notre item (titre, description, img)
+                        HashMap<String, String> map = (HashMap<String, String>) lvEarthqJ.getItemAtPosition(position);
+                        Intent quakeDetailsIntent = new Intent(MainActivity.this, QuakeDetailsActivity.class);
+
+                        quakeDetailsIntent.putExtra("title", map.get("title"));
+                        quakeDetailsIntent.putExtra("mag", map.get("mag"));
+                        quakeDetailsIntent.putExtra("description", map.get("description"));
+                        quakeDetailsIntent.putExtra("x0", map.get("x0"));
+                        quakeDetailsIntent.putExtra("x1", map.get("x1"));
+                        quakeDetailsIntent.putExtra("x2", map.get("x2"));
+                        quakeDetailsIntent.putExtra("url", map.get("url"));
 
                     /*
                     System.out.println("["
@@ -67,22 +70,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             +  map.get("x2") + "]");
                     //*/
 
-                    startActivity(quakeDetailsIntent);
+                        startActivity(quakeDetailsIntent);
 
 
                     /*
-            adb.setTitle("Erreur de récupération des séismes");
+
+            */
+
+                    }
+                });
+            }
+
+        } else {
+            AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
+            adb.setTitle("Connexion internet non activée");
             //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-            adb.setMessage("Veuillez vérifier votre connexion internet");
+            adb.setMessage("Veuillez vérifier vos paramètres de connexion");
             //on indique que l'on veut le bouton ok à notre boite de dialogue
             adb.setPositiveButton("Ok", null);
             adb.show();
-            */
-
-                }
-            });
         }
-
 
     }
 

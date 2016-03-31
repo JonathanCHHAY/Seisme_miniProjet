@@ -25,14 +25,12 @@ public class QuakeAsyncTask extends AsyncTask<Object, Integer, String> {
     ArrayList<HashMap<String, String>> listItem;
     SimpleAdapter adapter;
     ArrayList<Quake> quakes;
-    AlertDialog.Builder adb;
 
     @Override
     protected String doInBackground(Object... params) {
 
         listItem = (ArrayList<HashMap<String, String>>) params[0];
         adapter = (SimpleAdapter) params[1];
-        adb = (AlertDialog.Builder) params[2];
 
         String jsonData = "";
 
