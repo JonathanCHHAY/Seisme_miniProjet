@@ -1,5 +1,6 @@
 package com.example.jonathan.seisme_miniprojet;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Récupération de la listview créée dans le fichier main.xml
         final ListView lvEarthqJ = (ListView) findViewById(R.id.lvEarthq);
 
+        AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
+
         //Création de la ArrayList qui nous permettra de remplire la listView
         listItem = new ArrayList<>();
 
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         //final TextView tvDateR = (TextView) findViewById(R.id.tvJson);
-        new QuakeAsyncTask().execute(listItem, adapter);
+        new QuakeAsyncTask().execute(listItem, adapter, adb);
 
         if (lvEarthqJ != null) {
             lvEarthqJ.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,6 +69,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     startActivity(quakeDetailsIntent);
 
+
+                    /*
+            adb.setTitle("Erreur de récupération des séismes");
+            //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
+            adb.setMessage("Veuillez vérifier votre connexion internet");
+            //on indique que l'on veut le bouton ok à notre boite de dialogue
+            adb.setPositiveButton("Ok", null);
+            adb.show();
+            */
 
                 }
             });
